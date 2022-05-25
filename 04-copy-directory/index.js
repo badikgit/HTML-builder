@@ -1,9 +1,9 @@
 const { readdir, rm, mkdir } = require('fs/promises');
 const { copyFile } = require('fs');
-const path = require('path');
+const { join } = require('path');
 
-const pathToFolder = path.join(__dirname, 'files');
-const pathToCopyFolder = `${pathToFolder}-copy`;
+const pathToFolder = join(__dirname, 'files');
+const pathToCopyFolder = join(__dirname, 'files-copy');
 
 const copyDir = async (pathFrom, pathTo) => {
   mkdir(pathTo)
@@ -12,8 +12,8 @@ const copyDir = async (pathFrom, pathTo) => {
       console.log(`[\x1b[36m ✓ \x1b[0m] Папка успешно создана:\n${pathTo}`);
       const files = await readdir(pathFrom, { withFileTypes: true });
       files.forEach(async file => {
-        const path = `${pathFrom}\\${file.name}`;
-        const pathCopy = `${pathTo}\\${file.name}`;
+        const path = join(pathFrom, file.name);
+        const pathCopy = join(pathTo, file.name);
         if (file.isFile()) {
           copyFile(path, pathCopy, (err) => {
             if (err) console.log(`[\x1b[31m ✗ \x1b[0m] Ошибка копирования файла ${file.name}\nиз ${path}\nв ${pathCopy}`);

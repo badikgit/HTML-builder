@@ -13,7 +13,7 @@ fs.readdir(pathStyles,{ withFileTypes: true}, (err, files) => {
     const cssFiles = files.filter(file => ((file.isFile()) && 
       path.parse(path.join(pathStyles,file.name)).ext === '.css'));
     cssFiles.forEach(file => {
-      const readStream = fs.ReadStream(`${pathStyles}\\${file.name}`);
+      const readStream = fs.ReadStream(path.join(pathStyles, file.name));
       readStream.on ('data', data => writeStream.write(data));
     });
   }
